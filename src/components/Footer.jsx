@@ -19,7 +19,11 @@ export function Footer() {
       href: "https://www.instagram.com/zainshayykh/",
       label: "Instagram",
     },
-    { icon: FaGlobe, href: "zain-sheikh.vercel.app", label: "Website" },
+    {
+      icon: FaGlobe,
+      href: "https://zain-sheikh.vercel.app/",
+      label: "Website",
+    },
   ];
 
   return (
@@ -34,7 +38,7 @@ export function Footer() {
           animate={{ scale: 1 }}
           className="text-xs"
         >
-          &copy; {new Date().getFullYear()} Made with ❤️ by Zain Sheikh 
+          &copy; {new Date().getFullYear()} Made with ❤️ by Zain Sheikh
         </motion.p>
         <div className="flex items-center gap-3">
           {socialLinks.map((social, index) => (
