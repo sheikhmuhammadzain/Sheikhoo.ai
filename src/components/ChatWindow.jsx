@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-import * as ScrollArea from '@radix-ui/react-scroll-area';
-import { motion, useAnimation } from 'framer-motion';
-import { ChatMessage } from './ChatMessage';
+import React, { useEffect, useRef } from "react";
+import * as ScrollArea from "@radix-ui/react-scroll-area";
+import { motion, useAnimation } from "framer-motion";
+import { ChatMessage } from "./ChatMessage";
 
 export function ChatWindow({ messages, isLoading }) {
   const controls = useAnimation();
@@ -17,20 +17,24 @@ export function ChatWindow({ messages, isLoading }) {
   return (
     <ScrollArea.Root className="flex-1 overflow-hidden bg-black">
       <ScrollArea.Viewport className="h-full w-full" ref={scrollRef}>
-        <motion.div 
+        <motion.div
           className="max-w-4xl mx-auto px-6 py-4 space-y-4"
           initial={{ opacity: 0, y: 20 }}
           animate={controls}
         >
           {messages.length === 0 && !isLoading && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
               className="text-center py-12 bg-zinc-900/50 rounded-lg border border-zinc-800/50"
             >
-              <h2 className="text-lg font-medium text-white mb-2">Welcome to Sheikhoo.ai! 👋</h2>
-              <p className="text-sm text-zinc-400">Start your conversation below.</p>
+              <h2 className="text-lg font-medium text-white mb-2">
+                Welcome to StudyBuddy.ai! 👋
+              </h2>
+              <p className="text-sm text-zinc-400">
+                Start your conversation below.
+              </p>
             </motion.div>
           )}
           {messages.map((message, index) => (
@@ -59,7 +63,7 @@ export function ChatWindow({ messages, isLoading }) {
                     key={i}
                     className="w-1.5 h-1.5 bg-zinc-600 rounded-full"
                     animate={{
-                      y: ['0%', '-50%', '0%'],
+                      y: ["0%", "-50%", "0%"],
                     }}
                     transition={{
                       duration: 0.6,
