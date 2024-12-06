@@ -29,7 +29,7 @@ export function ChatWindow({ messages, isLoading }) {
               transition={{ duration: 0.5 }}
               className="text-center py-12 bg-zinc-900/50 rounded-lg border border-zinc-800/50"
             >
-              <h2 className="text-lg font-medium text-white mb-2">
+              <h2 className="text-3xl font-bold text-white mb-2">
                 Welcome to StudyBuddy.ai! 👋
               </h2>
               <p className="text-sm text-zinc-400">

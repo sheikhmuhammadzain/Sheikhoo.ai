@@ -20,7 +20,7 @@ export function ChatMessage({ message, isBot, timestamp = new Date() }) {
           "max-w-[80%] rounded-2xl p-6",
           isBot
             ? "bg-gray-800 text-gray-100 ml-4 rounded-tl-none"
-            : "bg-purple-600 text-white mr-4 rounded-tr-none"
+            : "bg-purple-800 text-white mr-4 rounded-tr-none max-w-[60%] p-4"
         )}
       >
         <div className="flex items-center mb-2">
