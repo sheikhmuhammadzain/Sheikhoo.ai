@@ -5,12 +5,40 @@
 @tailwind utilities;
 
 @layer base {
+  @font-face {
+    font-family: 'Geist Sans';
+    src: url('https://cdn.jsdelivr.net/npm/geist-font@latest/dist/fonts/geist-sans/GeistSans-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Geist Sans';
+    src: url('https://cdn.jsdelivr.net/npm/geist-font@latest/dist/fonts/geist-sans/GeistSans-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Geist Sans';
+    src: url('https://cdn.jsdelivr.net/npm/geist-font@latest/dist/fonts/geist-sans/GeistSans-SemiBold.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Geist Sans';
+    src: url('https://cdn.jsdelivr.net/npm/geist-font@latest/dist/fonts/geist-sans/GeistSans-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+  }
+
   body {
     @apply bg-black text-white font-body antialiased;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-sans font-bold;
+    @apply font-geist font-bold tracking-tight;
   }
 }
 

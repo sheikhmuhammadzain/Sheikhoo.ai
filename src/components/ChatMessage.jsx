@@ -7,41 +7,46 @@ import { cn } from "../utils/cn";
 export function ChatMessage({ message, isBot, timestamp = new Date() }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.2, ease: "easeOut" }}
       className={cn(
-        "flex w-full mb-6",
+        "flex w-full mb-2",
         isBot ? "justify-start" : "justify-end"
       )}
     >
       <div
         className={cn(
-          "max-w-[80%] rounded-2xl p-6",
+          "max-w-[80%] rounded-2xl px-4 py-2.5 backdrop-blur-md border",
           isBot
-            ? "bg-gray-800 text-gray-100 ml-4 rounded-tl-none"
-            : "bg-purple-800 text-white mr-4 rounded-tr-none max-w-[60%] p-4"
+            ? "bg-zinc-900/30 text-gray-100 ml-2 rounded-tl-none border-zinc-800/50"
+            : "bg-purple-500/20 text-white mr-2 rounded-tr-none border-purple-500/30"
         )}
       >
-        <div className="flex items-center mb-2">
-          <div
+        <div className="flex items-center gap-2 mb-1">
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             className={cn(
-              "w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold",
-              isBot ? "bg-purple-600 text-white" : "bg-white text-purple-600"
+              "w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium shadow-lg",
+              isBot 
+                ? "bg-gradient-to-br from-zinc-700 to-zinc-900 text-white" 
+                : "bg-gradient-to-br from-purple-400 to-purple-600 text-white"
             )}
           >
             {isBot ? "S" : "Y"}
-          </div>
-          <span className="ml-2 font-medium">
+          </motion.div>
+          <span className="text-xs font-medium">
             {isBot ? "StudyBuddy AI" : "You"}
           </span>
-          <span className="ml-2 text-xs text-gray-400">
+          <span className="text-[10px] text-gray-400 ml-auto">
             {format(timestamp, "HH:mm")}
           </span>
         </div>
         <div
           className={cn(
             "prose prose-sm max-w-none",
+            "prose-p:leading-relaxed prose-pre:bg-zinc-900/50 prose-pre:border prose-pre:border-zinc-800/50",
             isBot ? "prose-invert" : "prose-invert"
           )}
         >
@@ -49,5 +54,5 @@ export function ChatMessage({ message, isBot, timestamp = new Date() }) {
         </div>
       </div>
     </motion.div>
-  );
+  )
 }

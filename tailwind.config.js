@@ -7,6 +7,12 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
+      fontFamily: {
+        'sans': ['Inter var', 'sans-serif'],
+        'display': ['Clash Display', 'sans-serif'],
+        'body': ['Inter', 'sans-serif'],
+        'geist': ['Geist Sans', 'sans-serif'],
+      },
       colors: {
         'dark': {
           DEFAULT: '#000000',
@@ -19,7 +25,7 @@ export default {
           600: '#737373',
           700: '#999999',
           800: '#BFBFBF',
-          900: '#E5E5E5',
+          900: '#E6E6E6',
         },
         'accent': {
           DEFAULT: '#6D28D9',
@@ -30,11 +36,6 @@ export default {
           400: '#DDD6FE',
           500: '#EDE9FE',
         }
-      },
-      fontFamily: {
-        'sans': ['Inter var', 'sans-serif'],
-        'display': ['Clash Display', 'sans-serif'],
-        'body': ['Inter', 'sans-serif'],
       },
       animation: {
         'gradient': 'gradient 8s linear infinite',
