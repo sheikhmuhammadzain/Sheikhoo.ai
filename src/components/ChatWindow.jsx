@@ -48,13 +48,16 @@ export function ChatWindow({ messages, isLoading }) {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="flex items-center justify-center p-4"
+                className="flex flex-col items-center justify-center p-4 space-y-3"
               >
                 <div className="flex space-x-2">
                   <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
                   <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
                   <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce"></div>
                 </div>
+                <p className="text-sm text-zinc-400">
+                  Model is Deeply Reasoning...
+                </p>
               </motion.div>
             )}
             <div ref={messagesEndRef} />
