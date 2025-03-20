@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import ReactMarkdown from "react-markdown";
 import { cn } from "../utils/cn";
 
-export function ChatMessage({ message, isBot, timestamp = new Date() }) {
+export function ChatMessage({ message, isBot, isStreaming, timestamp = new Date() }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -52,32 +52,43 @@ export function ChatMessage({ message, isBot, timestamp = new Date() }) {
             isBot ? "prose-invert" : "prose-invert"
           )}
         >
-          <ReactMarkdown
-            components={{
-              pre: ({ node, ...props }) => (
-                <div className="relative group">
-                  <pre {...props} />
-                  <button
-                    onClick={() => {
-                      const code = node.children[0].children[0].value;
-                      navigator.clipboard.writeText(code);
-                    }}
-                    className="absolute top-2 right-2 p-1 rounded bg-zinc-800/50 text-zinc-400 opacity-0 group-hover:opacity-100 transition-opacity text-xs"
-                  >
-                    Copy
-                  </button>
-                </div>
-              ),
-              code: ({ node, inline, ...props }) =>
-                inline ? (
-                  <code {...props} className="bg-zinc-800/50 rounded px-1" />
-                ) : (
-                  <code {...props} />
+          {isStreaming && message.length === 0 ? (
+            <div className="flex space-x-2 my-2">
+              <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+              <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+              <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce"></div>
+            </div>
+          ) : (
+            <ReactMarkdown
+              components={{
+                pre: ({ node, ...props }) => (
+                  <div className="relative group">
+                    <pre {...props} />
+                    <button
+                      onClick={() => {
+                        const code = node.children[0].children[0].value;
+                        navigator.clipboard.writeText(code);
+                      }}
+                      className="absolute top-2 right-2 p-1 rounded bg-zinc-800/50 text-zinc-400 opacity-0 group-hover:opacity-100 transition-opacity text-xs"
+                    >
+                      Copy
+                    </button>
+                  </div>
                 ),
-            }}
-          >
-            {message}
-          </ReactMarkdown>
+                code: ({ node, inline, ...props }) =>
+                  inline ? (
+                    <code {...props} className="bg-zinc-800/50 rounded px-1" />
+                  ) : (
+                    <code {...props} />
+                  ),
+              }}
+            >
+              {message}
+            </ReactMarkdown>
+          )}
+          {isStreaming && message.length > 0 && (
+            <span className="inline-block w-2 h-4 bg-purple-500 ml-1 animate-pulse" />
+          )}
         </div>
       </div>
     </motion.div>

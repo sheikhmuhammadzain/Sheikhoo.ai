@@ -39,12 +39,13 @@ export function ChatWindow({ messages, isLoading }) {
                   <ChatMessage
                     message={message.text}
                     isBot={message.isBot}
+                    isStreaming={message.isStreaming}
                     timestamp={message.timestamp || new Date()}
                   />
                 </motion.div>
               ))}
             </AnimatePresence>
-            {isLoading && (
+            {isLoading && !messages.some(msg => msg.isStreaming) && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}

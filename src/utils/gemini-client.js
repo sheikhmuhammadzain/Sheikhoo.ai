@@ -28,4 +28,15 @@ const model = genAI.getGenerativeModel({
   },
 });
 
+// Helper function to convert file to base64 (for image/file support)
+export async function fileToGenerativePart(file) {
+  const data = await file.arrayBuffer();
+  return {
+    inlineData: {
+      data: Buffer.from(data).toString('base64'),
+      mimeType: file.type
+    },
+  };
+}
+
 export default model;
