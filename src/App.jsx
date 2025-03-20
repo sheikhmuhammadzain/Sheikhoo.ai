@@ -27,7 +27,7 @@ export default function App() {
             <ol className="list-decimal list-inside space-y-2">
               <li>Set up environment variables in Netlify:</li>
               <ul className="pl-6 mt-2 space-y-1">
-                <li>• Go to Site settings > Environment variables</li>
+                <li>• Go to Site settings Environment variables</li>
                 <li>• Add VITE_GEMINI_API_KEY with your API key</li>
                 <li>• Trigger a new deployment</li>
               </ul>
