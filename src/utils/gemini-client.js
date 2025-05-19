@@ -30,10 +30,17 @@ const model = genAI.getGenerativeModel({
 
 // Helper function to convert file to base64 (for image/file support)
 export async function fileToGenerativePart(file) {
-  const data = await file.arrayBuffer();
+  const arrayBuffer = await file.arrayBuffer();
+  const uint8Array = new Uint8Array(arrayBuffer);
+  let binaryString = '';
+  for (let i = 0; i < uint8Array.byteLength; i++) {
+    binaryString += String.fromCharCode(uint8Array[i]);
+  }
+  const base64String = btoa(binaryString);
+
   return {
     inlineData: {
-      data: Buffer.from(data).toString('base64'),
+      data: base64String,
       mimeType: file.type
     },
   };

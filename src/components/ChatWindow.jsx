@@ -1,7 +1,16 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChatMessage } from "./ChatMessage";
 import { WelcomeScreen } from "./WelcomeScreen";
+
+// Memoize the ChatMessage component to prevent unnecessary re-renders
+const MemoizedChatMessage = memo(ChatMessage, (prevProps, nextProps) => {
+  // Only re-render when these props change
+  return (
+    prevProps.message === nextProps.message && 
+    prevProps.isStreaming === nextProps.isStreaming
+  );
+});
 
 export function ChatWindow({ messages, isLoading }) {
   const messagesEndRef = useRef(null);
@@ -9,16 +18,19 @@ export function ChatWindow({ messages, isLoading }) {
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+      // Use behavior: "instant" for immediate scrolling on new messages
+      messagesEndRef.current.scrollIntoView({ behavior: "instant" });
     }
   };
 
+  // Scroll to bottom immediately when new messages arrive
   useEffect(() => {
+    // Skip animation frame for faster response
     scrollToBottom();
   }, [messages]);
 
   return (
-    <div className="flex-1 relative">
+    <div className="flex-1 relative max-h-[80vh]">
       <div
         ref={scrollContainerRef}
         className="absolute inset-0 overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-800 scrollbar-track-transparent px-4 py-4 space-y-4"
@@ -27,16 +39,19 @@ export function ChatWindow({ messages, isLoading }) {
           <WelcomeScreen />
         ) : (
           <div className="space-y-4 min-h-full">
-            <AnimatePresence initial={false}>
+            <AnimatePresence mode="popLayout" initial={false}>
               {messages.map((message, index) => (
                 <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
+                  key={message.id || index}
+                  initial={{ opacity: 0.8, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.2 }}
+                  transition={{ 
+                    duration: 0.15,
+                    ease: "easeOut"
+                  }}
+                  layout="position"
                 >
-                  <ChatMessage
+                  <MemoizedChatMessage
                     message={message.text}
                     isBot={message.isBot}
                     isStreaming={message.isStreaming}

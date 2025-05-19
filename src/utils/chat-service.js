@@ -19,23 +19,41 @@ export async function sendChatMessage(message) {
   }
 }
 
-// New streaming function
+// Enhanced streaming function with immediate first-chunk response
 export async function sendStreamingChatMessage(message, onUpdate) {
   try {
     // Start with an empty response
     let fullResponse = '';
+    let lastChunk = '';
+    let firstChunkReceived = false;
     
     // Generate content with streaming
     const streamingResult = await model.generateContentStream(message);
     
+    // Immediately notify with an empty response to show the AI is working
+    if (onUpdate && typeof onUpdate === 'function') {
+      onUpdate('');
+    }
+    
     // Process the stream
     for await (const chunk of streamingResult.stream) {
-      const chunkText = chunk.text();
-      fullResponse += chunkText;
-      
-      // Call the callback with the updated text so far
-      if (onUpdate && typeof onUpdate === 'function') {
-        onUpdate(fullResponse);
+      try {
+        const chunkText = chunk.text() || '';
+        lastChunk = chunkText;
+        fullResponse += chunkText;
+        
+        // Call the callback with the updated text so far
+        if (onUpdate && typeof onUpdate === 'function') {
+          onUpdate(fullResponse);
+          
+          // If this is the first meaningful chunk, notify immediately
+          if (!firstChunkReceived && fullResponse.trim().length > 0) {
+            firstChunkReceived = true;
+          }
+        }
+      } catch (err) {
+        console.warn('Error processing stream chunk:', err);
+        // Continue despite error in a single chunk
       }
     }
     
@@ -57,16 +75,34 @@ export async function sendMultiModalMessage(message, files = [], onUpdate) {
       content.push(message);
     }
     
+    // Send an immediate update to show loading state
+    if (onUpdate && typeof onUpdate === 'function') {
+      onUpdate('');
+    }
+    
     // Process files if any
     for (const file of files) {
-      if (file.type.startsWith('image/')) {
-        // Handle image files
-        const imagePart = await fileToGenerativePart(file);
-        content.push(imagePart);
-      } else if (file.type === 'audio/') {
-        // Handle audio files
-        const audioPart = await fileToGenerativePart(file);
-        content.push(audioPart);
+      try {
+        if (file.type.startsWith('image/')) {
+          // Handle image files
+          const imagePart = await fileToGenerativePart(file);
+          content.push(imagePart);
+        } else if (file.type.startsWith('audio/')) {
+          // Handle audio files
+          const audioPart = await fileToGenerativePart(file);
+          content.push(audioPart);
+        } else if (file.type.startsWith('video/')) {
+          // Handle video files
+          const videoPart = await fileToGenerativePart(file);
+          content.push(videoPart);
+        } else {
+          // Handle other file types as generic files
+          const filePart = await fileToGenerativePart(file);
+          content.push(filePart);
+        }
+      } catch (fileError) {
+        console.error(`Error processing file ${file.name}:`, fileError);
+        // Continue with other files if one fails
       }
     }
     

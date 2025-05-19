@@ -133,7 +133,7 @@ export function ChatInput({ onSendMessage, disabled }) {
               ref={fileInputRef}
               onChange={handleFileChange}
               multiple
-              accept="image/*,.pdf,.txt,.doc,.docx"
+              accept="image/*,audio/*,video/*,.pdf,.txt,.doc,.docx"
               className="hidden"
             />
             
